@@ -1,0 +1,125 @@
+<html>
+        <head><title>Downloaded HTML</title></head>
+        <body>
+            <pre style="white-space: pre-wrap; word-wrap: break-word;"><!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CLASSIFIED MESSAGE</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:#050505;color:#eee;font-family:monospace;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.screen{width:min(90%,650px);text-align:center}
+.warning{color:#f33;font-size:clamp(20px,5vw,34px);font-weight:bold;letter-spacing:3px;animation:f 1.5s infinite}
+.sub{color:#aaa;margin:15px 0 30px;font-size:14px}
+input{width:100%;max-width:400px;padding:14px;margin:4px;background:#111;border:1px solid #555;color:white;font-family:inherit;text-align:center;outline:0}
+button{margin-top:15px;padding:13px 28px;background:#111;color:white;border:1px solid #777;font-family:inherit}
+.error{color:#f33;margin-top:15px;min-height:20px}
+#message,#destroyed{display:none}
+.classified{color:#f33;letter-spacing:5px;font-size:13px;margin-bottom:20px}
+.message-box{border:1px solid #444;padding:30px 20px;background:#0b0b0b}
+.message{font-size:clamp(18px,4vw,25px);line-height:1.6}
+#timer{margin-top:25px;color:#f33;font-size:18px}
+#destroyed{color:#f33;font-size:clamp(24px,7vw,45px);font-weight:bold;letter-spacing:4px;animation:s .15s infinite}
+.scanlines{position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,#fff1 0 1px,transparent 1px 4px)}
+.fade{animation:o 1s forwards}
+@keyframes f{0%,18%,22%,63%,64%,100%{opacity:1}20%,62%{opacity:.25}}
+@keyframes s{0%{transform:translateX(-2px)}50%{transform:translateX(2px)}100%{transform:translateX(-2px)}}
+@keyframes o{to{opacity:0;transform:scale(1.15);filter:blur(8px)}}
+</style>
+</head>
+
+<body>
+<div class="scanlines"></div>
+<div class="screen">
+
+<div id="login">
+<div class="warning">⚠ CLASSIFIED</div>
+<div class="sub">IDENTITY VERIFICATION REQUIRED</div>
+
+<input id="agentName" placeholder="ENTER AGENT NAME" autocomplete="off">
+<input id="accessCode" type="password" placeholder="ENTER ACCESS CODE" autocomplete="off">
+
+<br>
+<button onclick="verify()">VERIFY IDENTITY</button>
+<div class="error" id="error"></div>
+</div>
+
+<div id="message">
+<div class="classified">★ TOP SECRET ★</div>
+<div class="message-box">
+<div class="message"></div>
+<div id="timer">SELF-DESTRUCT IN: 10</div>
+</div>
+</div>
+
+<div id="destroyed">MESSAGE DESTROYED</div>
+
+</div>
+
+<script>
+const ACCESS_CODE="FOX001",VIEW_TIME=10,KEY="classified_message_viewed";
+
+const login=document.getElementById("login");
+const message=document.getElementById("message");
+const destroyed=document.getElementById("destroyed");
+const agentName=document.getElementById("agentName");
+const accessCode=document.getElementById("accessCode");
+const error=document.getElementById("error");
+const timer=document.getElementById("timer");
+
+if(localStorage.getItem(KEY))
+login.innerHTML='<div class="warning">ACCESS DENIED</div><div class="sub">THIS MESSAGE HAS ALREADY BEEN VIEWED.</div>';
+
+function verify(){
+let n=agentName.value.trim(),c=accessCode.value;
+
+if(localStorage.getItem(KEY)){
+error.textContent="MESSAGE ALREADY DESTROYED.";
+return;
+}
+
+if(!n){
+error.textContent="ENTER AGENT NAME.";
+return;
+}
+
+if(c!==ACCESS_CODE){
+error.textContent="ACCESS DENIED — INVALID CODE.";
+accessCode.value="";
+return;
+}
+
+localStorage.setItem(KEY,"true");
+login.style.display="none";
+message.style.display="block";
+
+document.querySelector(".message").textContent=
+"AGENT "+n+"\n\nYour mission begins now.\n\nTrust only the person who knows the access code.";
+
+let t=VIEW_TIME;
+timer.textContent="SELF-DESTRUCT IN: "+t;
+
+let x=setInterval(()=>{
+t--;
+timer.textContent="SELF-DESTRUCT IN: "+t;
+if(t<=0){
+clearInterval(x);
+destroyMessage();
+}
+},1000);
+}
+
+function destroyMessage(){
+message.classList.add("fade");
+setTimeout(()=>{
+message.style.display="none";
+destroyed.style.display="block";
+},1000);
+}
+</script>
+
+</body>
+</html></pre>
+        </body>
+    </html>
